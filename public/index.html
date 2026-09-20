@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>素材工坊 · AI 图片素材生成</title>
+  <meta name="description" content="输入提示词，一键生成高质量图片素材，可用于设计、封面、配图与广告。">
+  <meta name="theme-color" content="#0e0e11">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">素材工坊</span>
+      <span class="brand-sub">AI 图片素材生成</span>
+    </div>
+    <div class="topbar-badge">gpt-image-2.5</div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>把想法，变成可用的<span class="accent">图片素材</span></h1>
+      <p>输入一句描述，AI 为你生成高清图片素材，可用于设计、封面、配图与广告。</p>
+    </section>
+
+    <section class="workbench">
+      <!-- 左侧：控制区 -->
+      <div class="panel controls">
+        <label class="field-label" for="prompt">提示词</label>
+        <textarea id="prompt" class="prompt" maxlength="4000"
+          placeholder="例如：一只在键盘上打字的橘猫，插画风格，柔和光影"></textarea>
+        <div class="chips" id="chips"></div>
+
+        <div class="field-label">画面比例</div>
+        <div class="seg" id="sizeSeg">
+          <button type="button" class="seg-btn active" data-size="1024x1024">方形 1:1</button>
+          <button type="button" class="seg-btn" data-size="1024x1536">竖版 2:3</button>
+          <button type="button" class="seg-btn" data-size="1536x1024">横版 3:2</button>
+        </div>
+
+        <button type="button" id="generate" class="generate">
+          <span class="gen-spinner" aria-hidden="true"></span>
+          <span class="gen-label">生成图片</span>
+        </button>
+        <p class="hint" id="hint"></p>
+        <p class="kbd">快捷键 Ctrl / ⌘ + Enter</p>
+      </div>
+
+      <!-- 右侧：画布区 -->
+      <div class="panel canvas">
+        <div class="canvas-inner" id="canvas">
+          <!-- 空闲 -->
+          <div class="state" id="stateIdle">
+            <div class="idle-icon" aria-hidden="true">✦</div>
+            <p class="idle-title">等待灵感</p>
+            <p class="idle-sub">输入提示词，点击「生成图片」开始创作</p>
+          </div>
+
+          <!-- 生成中 -->
+          <div class="state" id="stateLoading" hidden>
+            <div class="loader" aria-hidden="true"></div>
+            <p class="status" id="status">正在解析提示词…</p>
+            <div class="progress"><div class="progress-bar"></div></div>
+          </div>
+
+          <!-- 结果 -->
+          <div class="state" id="stateResult" hidden>
+            <img id="resultImg" class="result-img" alt="生成结果">
+            <div class="result-actions">
+              <button type="button" id="download" class="btn btn-primary">下载 PNG</button>
+              <button type="button" id="copy" class="btn">复制提示词</button>
+              <button type="button" id="again" class="btn">重新生成</button>
+            </div>
+          </div>
+
+          <!-- 错误 -->
+          <div class="state" id="stateError" hidden>
+            <div class="err-icon" aria-hidden="true">!</div>
+            <p class="err-title">生成失败</p>
+            <p class="err-sub" id="errMsg"></p>
+            <button type="button" id="retry" class="btn btn-primary">重试</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="history" id="history" hidden>
+      <div class="history-head">
+        <h2>本次生成</h2>
+        <span class="history-note">仅保存在当前会话，刷新后清空</span>
+      </div>
+      <div class="history-grid" id="historyGrid"></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>素材工坊 · 由 gpt-image-2.5 驱动</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
